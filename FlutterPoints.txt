@@ -1,0 +1,147 @@
+# For Creating a flutter project by vscode: CTRL + Shift + P ==> Flutter: project ==> App ==> created
+
+# Create a Flutter Package with CLI ==> run CMd in a Folder ==> flutter create <name>
+
+# material.dart Library: all standard widgets are in this library. The Material.dart library is a crucial component of the Flutter framework, designed to facilitate the creation of user interfaces (Ui) that adhere to Google's Material Design principles. This library provides a comprehensive suite of UI components, styles, and utilities that enable developers to build visually appealing and consistent applications across multiple platforms, including Android, iOS, web, and desktop.
+
+# What is material Design:
+Material is a design system created by Google to help teams build high-quality digital experiences for Android, iOS, Flutter, and the web.
+
+# Point: for debugging in our emulator:
+  ** debugShowCheckedModeBanner: false,
+  it remove the debug badge from our emulator.
+
+# void main(){} is the start point of our program.
+
+# runApp(); ==> we should start to write and create our application. Purpose of runApp(): Initializes the Flutter framework and runs the application. Takes a Widget object as an argument that represents the root of the application's widget tree. Usually passed an instance of MaterialApp or CupelationApp as the root widget.
+
+# MaterialApp(): MaterialApp is a core widget in Flutter that serves as the entry point for applications designed using Material Design principles. It provides a comprehensive structure for building user interfaces that are visually consistent and adhere to the guidelines established by Google’s Material Design.
+In the initial application, you must use this widget to be able to use Material Design components in Flutter. This widget includes a large number of Material Design widgets.
+
+** Point: it is better to use MaterialApp at first in runApp in order to stick to Google material Design System. ==> At First Always ==> void main() {
+  runApp(MaterialApp());
+}
+
+# In MaterialApp() ==> we should always use attribute home:, it show the home page, first page of ui.
+
+# Container() is a holder to holds other widgets.
+
+** Point: for changes on a build method we should use save or sane and hot reload, for other changes in app, outside build method we should use hot restart.
+
+# States:
+State is the information that can be read at the same time when creating a widget and may change during the lifetime of the widget (as long as the widget exists in the widget tree and memory is allocated to it). In very simple language, we want to say that state is the state of the widget that may change this state.
+
+# stf => statefulWidget ==> contains two class and build method. ==> we use statefulWidget, when we want to change Ui dynamically later. ==> they are changeable.
+  StatefulWidget:
+  In contrast, a StatefulWidget is designed to hold mutable state. This type of widget can change its appearance in response to events triggered by user interactions or other factors. The state of a StatefulWidget is maintained in a separate State object.
+  Characteristics:
+  Capable of dynamic behavior; can change based on user interactions, such as button presses, form inputs, or data updates.
+  Utilizes the setState() method to notify the framework that the internal state has changed, prompting a rebuild of the widget.
+  **anything that we want show in Ui should on return of the build widget., we write our code in front of return in method. and result is a widget(it is a recursive function).
+
+# stl => statelessWidget ==> just has one class and build method. ==> we use statelessWidget, when we do not want to change Ui late ==> they are static Ui.
+  Stateless:
+  As its name suggests, this widget does not need changeable state. This widget is useful when the part of the user interface that we want to implement does not depend on anything other than the configuration information in the object itself and the BuildContext. In simpler words, it becomes a part of the user interface, which is fixed and there is no change in that part of the user interface. We should use Stateful for parts that may change dynamically.
+  This widget is implemented as immutable, that is, none of its properties can be changed by itself, unless something happens outside of that widget that causes it to be created again. This will cause that widget to be instantiated again.
+  This widget (as well as Stateful) has a method called build() whose function is to show a part of the user interface. We have to write what is going to be seen in this method.
+  In the Stateless widget, this build method is only called in 3 modes:
+  1) When the widget is placed in the widget tree for the first time
+  2) When the parent widget changes its configuration
+  3) When an InheritedWidget depends on changes, this causes our Stateless widget to be rebuilt, and because it is being sampled again, its build() method is called again.
+  Well, with these things that I said, make sure to put the fixed parts of your user interface in Stateless as much as you can to have a better performance.
+  **anything that we want show in Ui should on return of the build widget., we write our code in front of return in method. and result is a widget(it is a recursive function).
+  
+  ** In conclusion, StatelessWidget class: constant display of other widgets without the possibility of changing and updating. StateFullWidget class: display other widgets with the ability to change their values ​​when the program changes.
+
+# Scaffold class
+Implements the basic Material Design visual layout structure. This class provides APIs for showing drawers and bottom sheets. (https://api.flutter.dev/flutter/material/Scaffold-class.html). Flutter's Scaffold widget provides a convenient way to structure the layout of your app. These features allow you to customize various aspects of the structure based on your application's design needs. Combining these features allows you to create a seamless and efficient user interface in a Flutter app.
+
+# child: In a container we put all our inner widget to a child. if we want more than one childe we can use row and column as well. child is holder of inner widgets.
+
+** In row and column widget, we can use children which is list of numerous widgets. But in Container we can have just one child. we should put other widgets in tor row and column.
+
+** we should create a widget(Class Constructor) for each element on page.
+
+* Popular widgets
+# Some important basic widgets: container, center, padding, column, row, Icons, card (has default elevation), SizedBox, ListView.builder(itemBuilder: (BuildContext context, int ic) {return Container())}, ClipRRect, AssetImage(enable us to use our added image from pubspec.yaml directly), Expanded, InputDecoration,  TextField, PopupMenuButton<String>(), JumpingDotsProgressIndicator() (import 'package:progress_indicators/progress_indicators.dart';), exit(0);, SafeArea(), final formatter = DateFormat.MMMd();, 
+
+# for google font after adding depencensies and import it in code: 'text', GoogleFonts.comfortaa(      textStyle: TextStyle(color: Colors.yellow[300]!,), floatingActionButton: FloatingActionButton()
+
+** each main Widget can get just one child, but row and column and stack can get children[] which is a list of widgets.
+
+** in Flutter we can use Uni Codes as well.
+
+# Row: mainAccessAlignment ==> X ==> crossAxisAlignment == Y (EX: Rwo( mainAxisAlignment: MainAxisAlignment.center,))
+# Column: MainAccessAlignment ==> Y ==> crossAxisAlignment == X
+
+** Flutter appBar ==> https://www.geeksforgeeks.org/flutter-appbar-widget/
+
+# width: double.infinity => infinity indicates the total width of any device. It can use for height and others as well.
+
+** When we add anything like: song, images, and so forth, we should introduce all of them in pubspec.yaml as well. Like this:
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - images/nightskybackground.jpg
+  #   - images/a_dot_burr.jpeg
+
+** In container when we use decoration: decoration: BoxDecoration(), in this widget we should use color, image, and anything else for our container. if use it, and use colors in it, we can not write and use color again as an attribute for container again. And For Adding Image by using decorationImage: image: DecorationImage(image: AssetImage()),
+
+# if we want to get input for search or elevatedmbuttion, we should in our main class create An Object for Controlling TextField from TextEditingController() and then add it by expanded widget to our text field.
+
+# Expanded: it tells to row or container that fill the row in compatible to the rest space.
+
+** controller is an attribute that get the text or something from user, and we should create an object for that as well.
+
+# dio library: Dio is a powerful HTTP client library specifically designed for Dart and Flutter applications. It enhances the capabilities of making HTTP requests beyond the basic functionalities provided by Dart's built-in http package. ** it is for connection with server like http. it is generally better than http. ==>:
+add dependencies like: dio: ^5.7.0 and after import it in our main.dart: import 'package:dio/dio.dart';
+
+# dio library has a override function which called initState() ==> this function if be written, always run at first in our application. the first thing that runs is initState.(we should write it in our class above build widget.) ==> add this:  <uses-permission android:name="android.permission.INTERNET"/> to android/app/src/main/AndroidManifest.xml
+
+* for edit our desirable json, we can use a model class. and save our necessary field of requestApi and save in that model class. **We use this model class to select and receive necessary queries from jason file just that.
+
+* progress_indicators: ^1.0.0 # for loading progress
+
+** use api without s ==> use http instead https.
+
+* fluttertoast ==> this library is for message, alert: fluttertoast: ^8.2.8, import 'package:fluttertoast/fluttertoast.dart'; for use it's message, first we should create a void function of that:
+*  void ShowToastMessage(String message) => Fluttertoast.showToast(
+*        msg: message,
+*        toastLength: Toast.LENGTH_LONG,
+*      );
+* And then use the function where we want ==> () => ShowToastMessage('message);
+
+* in Scaffold: floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
+* final formatter = DateFormat.MMMd(); ==> change Time Format ==> DateTime.fromMillisecondsSinceEpoch(isUtc: true,)
+
+# StreamBuilder<List<ForecastDaysModel>>(
+                                stream: StreamForecastDaysController.stream,
+                                builder: (context, snapshot) {},
+                                child: ...
+
+
+# onPressed: () {
+                                    setState(
+                                      () {
+                                        sendRequestCurrentWeather(
+                                            textEditingController.text);
+                                      },
+                                    );
+
+# setStat() ==> which means that command to stateFullWidget , rebuild data and widgets again.
+
+* default message:
+ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'It Is Not!',
+            style: GoogleFonts.gabarito(
+              textStyle: const TextStyle(
+                color: Colors.blue,
+                fontSize: 18,
+              ),
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ),
+
