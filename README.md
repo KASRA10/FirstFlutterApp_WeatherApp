@@ -21,7 +21,7 @@ The API that I have used in this program is privately mine and it will be expire
 
 # flutter_application_1
 
-A new Flutter project.
+A new Flutter project. This Is My Personal Exercising Of Flutter While I Am Learning It. It Is A Small Presentable **Portfolio** as well. Simple Flutter Weather App By Using Some Useful And Important Flutter Widgets.
 
 ## Getting Started
 
