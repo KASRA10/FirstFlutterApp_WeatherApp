@@ -1,5 +1,5 @@
 class CurrentCityDataModel {
-  final String _cityname;
+  final String _cityName;
   final String _main;
   final String _description;
   final String _country;
@@ -16,7 +16,7 @@ class CurrentCityDataModel {
   final _sunset;
 
   CurrentCityDataModel(
-    this._cityname,
+    this._cityName,
     this._main,
     this._description,
     this._country,
@@ -33,7 +33,7 @@ class CurrentCityDataModel {
     this._sunset,
   );
 
-  String get cityname => _cityname;
+  String get cityName => _cityName;
   String get main => _main;
   String get description => _description;
   String get country => _country;

@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/model/CurrentCityDataModel.dart';
-import 'package:flutter_application_1/model/ForecastDaysModel.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+import './model/CurrentCityDataModel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui';
 
 void main() {
@@ -32,12 +31,6 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
   late Future<CurrentCityDataModel> currentWeatherFuture;
 
   var cityName = 'Tehran'; // for openWeatherAPI - Current API
-  var lat; // for Second OpenWeatherAPI - 8 days forecast
-  var lon; // for Second OpenWeatherAPI - 8 days forecast
-
-  // StreamBuilder - for listening continuously and then re-built and new respond again.
-  late StreamController<List<ForecastDaysModel>>
-      streamForecastDaysController; // we used list, because we want get 6 days data nor just one and as a result of that we need list to save those data in it. we get these data by a class.
 
   // dio - initState
   @override
@@ -45,21 +38,20 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
     super.initState();
     currentWeatherFuture = sendRequestCurrentWeather(
         cityName); // set value for our future of our future class model.
-    streamForecastDaysController = StreamController<
-        List<
-            ForecastDaysModel>>(); // set value for our object of our Stream COntroller.
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // it is basic structure/ layout of an app.
-      backgroundColor: Colors.blue[300],
+      backgroundColor: Colors.blue[900],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      primary: true,
       appBar: AppBar(
-        backgroundColor: Colors.blue[300],
+        backgroundColor: Colors.blue[900],
         shadowColor: Colors.black,
         elevation: 15,
+        primary: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(15),
@@ -67,35 +59,22 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
           ),
         ),
         centerTitle: true,
-        toolbarHeight: 55.5,
+        toolbarHeight: 65.5,
         leading: Padding(
           padding: const EdgeInsets.only(
             left: 5.5,
           ),
-          child: IconButton(
-            onPressed: () {
-              exit(0);
-            },
-            highlightColor: Colors.transparent,
-            icon: const Icon(
-              Icons.exit_to_app_outlined,
-              size: 25,
-              color: Colors.white,
-              semanticLabel:
-                  'Arrow and Box that indicate exiting or going back of application',
-            ),
-            enableFeedback: true,
-            tooltip: 'Completely Exit From App',
+          child: BackButton(
+            color: Colors.white,
+            onPressed: () => exit(0),
           ),
         ),
-        title: Text(
+        title: const Text(
           'Weather App',
-          style: GoogleFonts.gabarito(
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 23,
-              fontWeight: FontWeight.w600,
-            ),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
           ),
         ),
         actions: <Widget>[
@@ -107,7 +86,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
               iconColor: Colors.white,
               elevation: 15,
               tooltip: 'Accessing to App Menu',
-              color: Colors.blue[300],
+              color: Colors.blue[900],
               menuPadding: const EdgeInsets.all(
                 10,
               ),
@@ -121,31 +100,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
               onSelected: (message) =>
                   ShowToastMessage('Coming Soon, Not Available Right Now!'),
               // ignore: avoid_print
-              itemBuilder: (BuildContext context) {
-                return {
-                  'Locations',
-                  'Account',
-                  'Setting',
-                  'Support',
-                }.map(
-                  (String menuChoice) {
-                    return PopupMenuItem(
-                      value: menuChoice,
-                      child: Center(
-                        child: Text(
-                          menuChoice,
-                          style: GoogleFonts.gabarito(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ).toList();
-              },
+              itemBuilder: (BuildContext context) => myPopUpMenuItems(),
             ),
           ),
         ],
@@ -156,7 +111,6 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
           // snapshot: is data that we get from our future that are used.(currentWeatherFuture)
           if (snapshot.hasData) {
             CurrentCityDataModel? cityDataModel = snapshot.data;
-            sendRequestSevenDaysForecast(lat, lon);
 
             final formatter = DateFormat.jm();
             var sunrise = formatter.format(
@@ -177,7 +131,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                 color: Colors.blue[50],
                 image: const DecorationImage(
                   image: AssetImage(
-                    'images/nightskybackground.jpg',
+                    'images/nightSkyBackground.jpg',
                   ),
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
@@ -209,14 +163,12 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                 ),
                                 child: ElevatedButton.icon(
                                   iconAlignment: IconAlignment.end,
-                                  label: Text(
+                                  label: const Text(
                                     'Find',
-                                    style: GoogleFonts.gabarito(
-                                      textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      ),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   icon: const Icon(
@@ -248,35 +200,29 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                   controller: textEditingController,
                                   cursorColor: Colors.white,
                                   enableSuggestions: true,
-                                  style: GoogleFonts.gabarito(
-                                    textStyle: const TextStyle(
-                                      color: Colors.white,
-                                    ),
+                                  style: const TextStyle(
+                                    color: Colors.white,
                                   ),
-                                  decoration: InputDecoration(
-                                    focusedBorder: const UnderlineInputBorder(
+                                  decoration: const InputDecoration(
+                                    focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       ),
                                     ),
                                     hintText: 'Enter A City name',
-                                    hintStyle: GoogleFonts.gabarito(
-                                      textStyle: const TextStyle(
-                                        color: Colors.white70,
-                                      ),
+                                    hintStyle: TextStyle(
+                                      color: Colors.white70,
                                     ),
-                                    border: const UnderlineInputBorder(
+                                    border: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.white,
                                       ),
                                     ),
                                     helper: Text(
                                       'Locations',
-                                      style: GoogleFonts.gabarito(
-                                        textStyle: const TextStyle(
-                                          color: Colors.white60,
-                                          fontSize: 14,
-                                        ),
+                                      style: TextStyle(
+                                        color: Colors.white60,
+                                        fontSize: 14,
                                       ),
                                     ),
                                   ),
@@ -291,13 +237,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                           top: 15.5,
                         ),
                         child: Text(
-                          cityDataModel.cityname,
-                          style: GoogleFonts.gabarito(
-                            textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 35,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          cityDataModel.cityName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 35,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -307,13 +251,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                         ),
                         child: Text(
                           cityDataModel.description,
-                          style: GoogleFonts.gabarito(
-                            textStyle: TextStyle(
-                              color: Colors.white.withOpacity(
-                                .8,
-                              ),
-                              fontSize: 18,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(
+                              .8,
                             ),
+                            fontSize: 18,
                           ),
                         ),
                       ),
@@ -329,11 +271,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                         ),
                         child: Text(
                           '${cityDataModel.temp}\u00b0',
-                          style: GoogleFonts.gabarito(
-                            textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 60,
-                            ),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 60,
                           ),
                         ),
                       ),
@@ -348,13 +288,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                               children: [
                                 Text(
                                   'max',
-                                  style: GoogleFonts.gabarito(
-                                    textStyle: TextStyle(
-                                      color: Colors.white.withOpacity(
-                                        .6,
-                                      ),
-                                      fontSize: 17,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(
+                                      .6,
                                     ),
+                                    fontSize: 17,
                                   ),
                                 ),
                                 Padding(
@@ -363,11 +301,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                   ),
                                   child: Text(
                                     '${cityDataModel.temp_max}\u00b0',
-                                    style: GoogleFonts.gabarito(
-                                      textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                      ),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
                                     ),
                                   ),
                                 ),
@@ -391,13 +327,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                 children: [
                                   Text(
                                     'min',
-                                    style: GoogleFonts.gabarito(
-                                      textStyle: TextStyle(
-                                        color: Colors.white.withOpacity(
-                                          .6,
-                                        ),
-                                        fontSize: 17,
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(
+                                        .6,
                                       ),
+                                      fontSize: 17,
                                     ),
                                   ),
                                   Padding(
@@ -406,11 +340,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                     ),
                                     child: Text(
                                       '${cityDataModel.temp_min}\u00b0',
-                                      style: GoogleFonts.gabarito(
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                        ),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
                                       ),
                                     ),
                                   ),
@@ -430,61 +362,6 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                           height: 1,
                         ),
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 130,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 15.5,
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(
-                                5.5,
-                              ),
-                              child: StreamBuilder<List<ForecastDaysModel>>(
-                                stream: streamForecastDaysController.stream,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    List<ForecastDaysModel>? forecastDays = snapshot
-                                        .data; // it gets data from our stream builder.
-
-                                    return ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: 6,
-                                      shrinkWrap: true,
-                                      itemBuilder:
-                                          (BuildContext context, int ic) {
-                                        return listViewItems(
-                                            forecastDays![ic + 1]);
-                                      },
-                                    );
-                                  } else {
-                                    return Center(
-                                      child: JumpingDotsProgressIndicator(
-                                        color: Colors.white,
-                                        fontSize: 75,
-                                        dotSpacing: 2,
-                                        numberOfDots: 7,
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 15.5,
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          height: 1,
-                          color: Colors.white,
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 15.5,
@@ -496,13 +373,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                               children: [
                                 Text(
                                   'Wind Speed',
-                                  style: GoogleFonts.gabarito(
-                                    textStyle: TextStyle(
-                                      color: Colors.white.withOpacity(
-                                        .7,
-                                      ),
-                                      fontSize: 14,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(
+                                      .7,
                                     ),
+                                    fontSize: 14,
                                   ),
                                 ),
                                 Padding(
@@ -511,11 +386,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                   ),
                                   child: Text(
                                     '${cityDataModel.windSpeed}m/s',
-                                    style: GoogleFonts.gabarito(
-                                      textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
@@ -539,13 +412,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                 children: [
                                   Text(
                                     'sunrise',
-                                    style: GoogleFonts.gabarito(
-                                      textStyle: TextStyle(
-                                        color: Colors.white.withOpacity(
-                                          .7,
-                                        ),
-                                        fontSize: 14,
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(
+                                        .7,
                                       ),
+                                      fontSize: 14,
                                     ),
                                   ),
                                   Padding(
@@ -554,11 +425,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                     ),
                                     child: Text(
                                       sunrise,
-                                      style: GoogleFonts.gabarito(
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                        ),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
                                       ),
                                     ),
                                   ),
@@ -583,13 +452,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                 children: [
                                   Text(
                                     'sunset',
-                                    style: GoogleFonts.gabarito(
-                                      textStyle: TextStyle(
-                                        color: Colors.white.withOpacity(
-                                          .7,
-                                        ),
-                                        fontSize: 14,
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(
+                                        .7,
                                       ),
+                                      fontSize: 14,
                                     ),
                                   ),
                                   Padding(
@@ -598,11 +465,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                     ),
                                     child: Text(
                                       sunset,
-                                      style: GoogleFonts.gabarito(
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                        ),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
                                       ),
                                     ),
                                   ),
@@ -627,13 +492,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                 children: [
                                   Text(
                                     'Humidity',
-                                    style: GoogleFonts.gabarito(
-                                      textStyle: TextStyle(
-                                        color: Colors.white.withOpacity(
-                                          .7,
-                                        ),
-                                        fontSize: 14,
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(
+                                        .7,
                                       ),
+                                      fontSize: 14,
                                     ),
                                   ),
                                   Padding(
@@ -642,11 +505,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                     ),
                                     child: Text(
                                       '${cityDataModel.humidity}%',
-                                      style: GoogleFonts.gabarito(
-                                        textStyle: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                        ),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
                                       ),
                                     ),
                                   ),
@@ -709,7 +570,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
   Future<CurrentCityDataModel> sendRequestCurrentWeather(
     String cityName,
   ) async {
-    var apiKey = '457ec16fd35a67a666153666a8566be4';
+    var apiKey = '7d1052bc34ba250a23eadd88724a76ea';
     var responseRequest = await Dio().get(
       //get method ==> gets all data as jsonFile
       'http://api.openweathermap.org/data/2.5/weather',
@@ -744,74 +605,33 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
       responseRequest.data['sys']['sunset'],
     );
 
-    lat = responseRequest.data['coord']['lat'];
-    lon = responseRequest.data['coord']['lon'];
-
     return dataModel;
   } // End Of SendRequestCurrentWeather()
 
-  // create a method to get data from second openWeatherAPI, ForecastAPI
-  void sendRequestSevenDaysForecast(lat, lon) async {
-    var apiKey = '457ec16fd35a67a666153666a8566be4';
-
-    List<ForecastDaysModel> listOfData = [];
-
-    try {
-      var respond = await Dio().get(
-          'http://api.openweathermap.org/data/3.0/onecall',
-          queryParameters: {
-            'lat': lat,
-            'lon': lon,
-            'exclude': 'minutely, hourly', // don't want these data
-            'appid': apiKey,
-            'units': 'metric',
-          });
-
-      print(respond.data);
-      print(respond.statusCode);
-      print(respond.statusMessage);
-
-      // change time
-      final formatter = DateFormat.MMMd();
-
-      for (int i = 0; i < 7; i++) {
-        var model = respond.data['daily'][i];
-
-        var dt = formatter.format(
-          DateTime.fromMillisecondsSinceEpoch(
-            model['dt'] * 1000,
-            isUtc: true,
-          ),
-        );
-
-        ForecastDaysModel forecastDaysModel = ForecastDaysModel(
-          dt,
-          model['temp']['day'],
-          model['weather'][0]['main'],
-          model['weather'][0]['description'],
-        );
-
-        listOfData.add(forecastDaysModel);
-      }
-
-      streamForecastDaysController.add(listOfData);
-    } on DioException catch (e) {
-      print(e.response!.statusCode);
-      print(e.message);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'It Is Not!',
-            style: GoogleFonts.gabarito(
-              textStyle: const TextStyle(
+  List<PopupMenuItem<String>> myPopUpMenuItems() {
+    return {
+      'Locations',
+      'Account',
+      'Setting',
+      'Support',
+    }.map(
+      (String menuChoice) {
+        return PopupMenuItem(
+          value: menuChoice,
+          child: Center(
+            child: Text(
+              menuChoice,
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: 21,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                fontStyle: FontStyle.italic,
               ),
             ),
           ),
-        ),
-      );
-    }
+        );
+      },
+    ).toList();
   }
 
   // Icon Setter Function/ Method
@@ -868,43 +688,5 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
         semanticLabel: 'normal weather',
       );
     }
-  }
-
-  // build cards from 6-days data forecast API + it's model and create cards
-  SizedBox listViewItems(ForecastDaysModel forecastDays) {
-    return SizedBox(
-      width: 60,
-      height: 70,
-      child: Card(
-        color: Colors.white,
-        elevation: 15,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              forecastDays.dataTime.toString(),
-              style: GoogleFonts.gabarito(
-                textStyle: TextStyle(
-                  color: Colors.blue[900],
-                  fontSize: 12,
-                ),
-              ),
-            ),
-            Expanded(
-              child: setIconForMain(forecastDays),
-            ),
-            Text(
-              '${forecastDays.temp.round().toString()}\u00b0',
-              style: GoogleFonts.gabarito(
-                textStyle: TextStyle(
-                  color: Colors.blue[900],
-                  fontSize: 18,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 } // End Of State<>
