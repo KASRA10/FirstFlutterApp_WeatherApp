@@ -98,7 +98,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
               ),
               enableFeedback: true,
               onSelected: (message) =>
-                  ShowToastMessage('Coming Soon, Not Available Right Now!'),
+                  ShowToastMessage('Not Available Right Now!'),
               // ignore: avoid_print
               itemBuilder: (BuildContext context) => myPopUpMenuItems(),
             ),
@@ -177,11 +177,13 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                     size: 18,
                                   ),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue[300],
+                                    backgroundColor: Colors.blue[900],
                                     padding: const EdgeInsets.only(
                                       right: 15.5,
                                       left: 19.5,
                                     ),
+                                    shadowColor: Colors.blue[900],
+                                    elevation: 15,
                                   ),
                                   onPressed: () {
                                     setState(
@@ -209,7 +211,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    hintText: 'Enter A City name',
+                                    hintText: 'Enter A City Name',
                                     hintStyle: TextStyle(
                                       color: Colors.white70,
                                     ),
@@ -219,7 +221,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                                       ),
                                     ),
                                     helper: Text(
-                                      'Locations',
+                                      'Location',
                                       style: TextStyle(
                                         color: Colors.white60,
                                         fontSize: 14,
@@ -234,7 +236,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 15.5,
+                          top: 25.5,
                         ),
                         child: Text(
                           cityDataModel.cityName,
@@ -535,17 +537,16 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            ShowToastMessage('Coming Soon, Not Available Right Now!'),
-        backgroundColor: Colors.blue[300],
+        onPressed: () => ShowToastMessage('Not Available Right Now!'),
+        backgroundColor: Colors.blue[900],
         focusColor: Colors.grey[350],
         hoverColor: Colors.grey[400],
         splashColor: Colors.white24,
         foregroundColor: Colors.blue[900],
         tooltip: 'Add A Specific Location Or Saved Locations',
         enableFeedback: true,
-        mini: false,
         highlightElevation: 15,
+        elevation: 15,
         child: const Icon(
           Icons.add_location_alt_outlined,
           color: Colors.white,
@@ -560,9 +561,9 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
   void ShowToastMessage(String message) => Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_LONG,
-        backgroundColor: Colors.blue[300],
+        backgroundColor: Colors.blue[900],
+        fontSize: 16,
         textColor: Colors.white,
-        fontSize: 26,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
       );
@@ -582,8 +583,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
     );
 
     // For Checking On Console InterFace.
+    // ignore: avoid_print
     print(responseRequest.data);
+    // ignore: avoid_print
     print(responseRequest.statusCode);
+    // ignore: avoid_print
     print(responseRequest.statusMessage);
     // End Of Console InterFace
 

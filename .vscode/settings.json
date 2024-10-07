@@ -6,5 +6,5 @@
   "dart.hotReloadOnSave": "all",
   "dart.flutterGenerateLocalizationsOnSave": "never",
   "dart.previewHotReloadOnSaveWatcher": false,
-  "cSpell.words": ["elevatedmbuttion", "nightskybackground"]
+  "cSpell.words": ["elevatedmbuttion", "Fluttertoast", "nightskybackground"]
 }
