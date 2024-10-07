@@ -546,7 +546,6 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
         foregroundColor: Colors.blue[900],
         tooltip: 'Add A Specific Location Or Saved Locations',
         enableFeedback: true,
-        highlightElevation: 15,
         elevation: 15,
         child: const Icon(
           Icons.add_location_alt_outlined,
