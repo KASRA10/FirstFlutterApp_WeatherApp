@@ -19,6 +19,9 @@ Since it is my training code and actually is it something like my portfolio, ple
 # Knowledge
 The API that I have used in this program is privately mine and it will be expired after a white, you can replace it with your API key.
 
+# Preview
+![MyAppScreenShot_KasraK10](https://github.com/user-attachments/assets/133f383a-7a99-45a9-9841-6ba34adfde60)
+
 # flutter_application_1
 
 A new Flutter project. This Is My Personal Exercising Of Flutter While I Am Learning It. It Is A Small Presentable **Portfolio** as well. Simple Flutter Weather App By Using Some Useful And Important Flutter Widgets.
