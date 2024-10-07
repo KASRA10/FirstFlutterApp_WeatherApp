@@ -49,7 +49,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
       primary: true,
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
-        shadowColor: Colors.black,
+        shadowColor: Colors.blue[900],
         elevation: 15,
         primary: true,
         shape: const RoundedRectangleBorder(
@@ -148,10 +148,11 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                 ),
                 child: Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 15.5,
+                          top: 35.5,
                         ),
                         child: SizedBox(
                           width: 350,
@@ -236,7 +237,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 25.5,
+                          top: 35.5,
                         ),
                         child: Text(
                           cityDataModel.cityName,
@@ -263,7 +264,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 15.5,
+                          top: 35.5,
                         ),
                         child: setIconForMain(cityDataModel),
                       ),
@@ -281,7 +282,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 15.5,
+                          top: 35.5,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -356,7 +357,7 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 15.5,
+                          top: 35.5,
                         ),
                         child: Container(
                           color: Colors.white,
@@ -646,49 +647,49 @@ class _MyWidgetOneState extends State<MyWidgetOne> {
       return Icon(
         Icons.wb_sunny,
         color: Colors.yellow[300],
-        size: 90,
+        size: 100,
         semanticLabel: 'Clear Sky Icon',
       );
     } else if (description.contains('clouds')) {
       return Icon(
         Icons.cloud,
         color: Colors.blue[300],
-        size: 90,
+        size: 100,
         semanticLabel: 'clouds Icon',
       );
     } else if (description.contains('thunderstorm')) {
       return Icon(
         Icons.thunderstorm_rounded,
         color: Colors.blueGrey[50],
-        size: 90,
+        size: 100,
         semanticLabel: 'thunderstorm Icon',
       );
     } else if (description.contains('drizzle')) {
       return Icon(
         Icons.water,
         color: Colors.blue[300],
-        size: 90,
+        size: 100,
         semanticLabel: 'drizzle Icon',
       );
     } else if (description.contains('rain')) {
       return Icon(
         Icons.water_drop_rounded,
         color: Colors.blue[300],
-        size: 90,
+        size: 100,
         semanticLabel: 'rain Icon',
       );
     } else if (description.contains('snow')) {
       return const Icon(
         Icons.snowing,
         color: Colors.white,
-        size: 90,
+        size: 100,
         semanticLabel: 'snow Icon',
       );
     } else {
       return const Icon(
         Icons.invert_colors_rounded,
         color: Colors.white,
-        size: 90,
+        size: 100,
         semanticLabel: 'normal weather',
       );
     }
